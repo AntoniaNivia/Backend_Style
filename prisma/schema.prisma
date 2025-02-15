@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// npx prisma migrate dev
+// npm start
+
+model User {
+  id    Int     @id @default(autoincrement()) 
+  email String  @unique  
+  name  String 
+  password String
+  genero String?
+  preferences preferences?
+
+  @@map("users") 
+}
+
+model preferences {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique
+  user            User     @relation(fields: [userId], references: [id])
+  tipoCorporal    String   // Small, Mid size, Plus size
+  formatoCorporal String   // Ampulheta, Triângulo, Triângulo invertido, Oval, Retângulo
+  estiloPrincipal String   // Elegante/Clássico, Vintage/Retrô, Urbano/Streetwear, etc
+  pecaFrequente   String   // Camisa, Calça, Saia, Vestido, Outro
+  corPreferida    String   // Branco, Preto, Cinza, etc
+  estiloEvitar    String   // Elegante/Clássico, Vintage/Retrô, etc
+  ocasiaoComum    String   // Trabalho, Festa, Evento social, etc
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("preferences")
+}
