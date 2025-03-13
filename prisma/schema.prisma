@@ -43,3 +43,15 @@ model preferences {
 
   @@map("preferences")
 }
+
+
+model Photo {
+  id        Int      @id @default(autoincrement())
+  url       String
+  title     String?
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("photos")
+}
