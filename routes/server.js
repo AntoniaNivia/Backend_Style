@@ -5,13 +5,16 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 dotenv.config();
+
 const app = express();
 
 // Configuração do Multer para armazenar imagens em memória
 const upload = multer({ storage: multer.memoryStorage() });
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+// Configuração do Supabase
+const supabase = createClient(process.env.DATABASE_URL,process.env.DIRECT_URL);
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
